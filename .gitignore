@@ -1,0 +1,10 @@
+.ignore/*
+*.mex*
+*.io
+*.pdb
+*.asv
+*.bak
+*.map
+*.manifest
+~*
+
