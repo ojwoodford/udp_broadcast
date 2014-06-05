@@ -10,7 +10,7 @@
 
 #ifdef _MATLAB_
 #include "mex.h"
-#include "handle_class.h"
+#include "class_handle.hpp"
 extern "C" mxArray* mxDeserialize(const void*, size_t);
 #endif
 

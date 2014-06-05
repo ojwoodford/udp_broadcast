@@ -123,7 +123,7 @@ private:
 
 #ifdef _MATLAB_
 #include "mex.h"
-#include "handle_class.h"
+#include "class_handle.hpp"
 extern "C" mxArray* mxSerialize(const mxArray*);
 
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
