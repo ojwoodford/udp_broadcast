@@ -194,7 +194,7 @@ for a = 1:numel(sourceList)
     if isempty(sourceList{a}) || sourceList{a}(1) == '-' % Found an option (not a source file)
         continue;
     end
-    [ext ext ext] = fileparts(sourceList{a});
+    [ext, ext, ext] = fileparts(sourceList{a});
     switch ext
         case '.cu'
             % GPU programming - Convert any *.cu files to *.cpp
