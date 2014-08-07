@@ -183,6 +183,8 @@ for a = 1:numel(sourceList)
             case 'g' % Debugging on
                 debug = debug | (numel(sourceList{a}) == 2);
         end
+    else
+        sourceList{a} = ['"' sourceList{a} '"'];
     end
 end
 
@@ -194,7 +196,7 @@ for a = 1:numel(sourceList)
     if isempty(sourceList{a}) || sourceList{a}(1) == '-' % Found an option (not a source file)
         continue;
     end
-    [ext, ext, ext] = fileparts(sourceList{a});
+    [ext, ext, ext] = fileparts(sourceList{a}(2:end-1));
     switch ext
         case '.cu'
             % GPU programming - Convert any *.cu files to *.cpp
@@ -230,8 +232,8 @@ for a = 1:numel(sourceList)
                 fclose(fid);
             end
             % Compile to object file
-            outName = [tempname '.o'];
-            cmd = sprintf('%s --compile "%s" --output-file "%s"', gpucc, sourceList{a}, outName);
+            outName = ['"' tempname '.o"'];
+            cmd = sprintf('%s --compile "%s" --output-file %s', gpucc, sourceList{a}, outName);
             disp(cmd);
             if system(cmd)
                 % Quit
@@ -244,7 +246,6 @@ for a = 1:numel(sourceList)
         case {'.f', '.f90'}
             L(a) = 2;
     end
-    sourceList{a} = ['"' sourceList{a} '"'];
 end
 % Delete the options file
 if ~isempty(options_file)
