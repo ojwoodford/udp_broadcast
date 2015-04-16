@@ -53,6 +53,7 @@ if iscell(sourceList)
         fprintf('Missing mex file: %s.%s. Will attempt to compile and run.\n', funcName, mexext);
         retval = ojw_mexcompile(funcName, sourceList);
         if retval > 0
+            which(funcName); % Make sure MATLAB registers the new function
             [varargout{1:nargout}] = feval(funcName, varargin{:});
         else
             % Return to the original directory
@@ -272,14 +273,14 @@ switch mexext
 end
 
 % Call mex to compile the code
-cmd = sprintf('mex -D_MATLAB_ %s%s -output "%s"', flags, sprintf(' %s', sourceList{:}), funcName);
+cmd = sprintf('mex -D_MATLAB_=%d %s%s -output "%s"', [100 1] * sscanf(version(), '%d.%d', 2), flags, sprintf(' %s', sourceList{:}), funcName);
 disp(cmd);
 try
     eval(cmd);
     okay = 1;
 catch me
     fprintf('ERROR while compiling %s\n', funcName);
-    %fprintf('%s', getReport(me));
+    fprintf('%s', getReport(me, 'basic'));
 end
 
 % Clean up
